@@ -18,6 +18,10 @@ buttonObj = {
 # チャット履歴
 array = []
 
+# 選択した値を格納する
+choice = []
+# 注意を格納
+attention = []
 
 keys = list(buttonObj.keys())
 values = list(buttonObj.values())
@@ -78,13 +82,11 @@ def init(l: list) -> list:
 
 @app.route('/', methods=['GET', 'POST']) #ルートからのパスを設定
 def index():
-
+    global choice, attention
     if request.method == 'GET':
-        # 選択した値を格納する
         choice = []
-        # 注意を格納
         attention = []
-        return render_template('main.html', key="服の種類", data = buttonObj["服の種類"])
+        return render_template('main.html', key="服の種類", data = buttonObj["服の種類"], array=array)
     
     key = request.form["buttonType"]
     # 選択した値を取得
@@ -108,13 +110,11 @@ def index():
         array.append({
             tuple(choice): attention
         })
-        choice = init(choice)
-        attention = init(attention)
         return render_template('main.html', array=array)
     
     key, value = getNextKeyValue(key)
     # question,answerをmain.htmlに渡し、main.htmlを表示する
-    return render_template('main.html', key=key, data = value, choice=choice, attention=attention)
+    return render_template('main.html', key=key, data = value, choice=choice, attention=attention, array=array)
 
 # Flaskで必要なもの、port=8000番
 # このファイルを直接実行しているかを判断
