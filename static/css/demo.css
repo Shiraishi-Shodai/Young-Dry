@@ -1,0 +1,148 @@
+.container {
+    height: 600px;
+    width: 50%;
+    margin: 0 auto;
+}
+.messages_container{
+    height: 100%;
+    width: 100%;
+    background-color: #eee;
+}
+/* ヘッダー部分② */
+.chat_header {
+    padding: 6px;
+    /*隙間調整*/
+    font-size: 16px;
+    height: 34px;
+    background: #ddd;
+    border: 1px solid #ccc;
+   }
+/* ステータスマークとユーザー名 */
+.chat_user_status {
+    float: left;
+    /* chat_headerに対して左寄せ */
+}
+.status_icon {
+    float: left;
+    /* chat_user_statusに対して左寄せ */
+    line-height: 2em;
+    /*高さ調整*/
+}
+.chat_user_name {
+    float: left;
+    line-height: 2em;
+    padding-left: 8px;
+}
+.top {
+    text-decoration: none;
+    color:black;
+    margin-left: 50px;
+}
+.messages{
+    overflow: auto; /* スクロールを効かせつつ、メッセージがタイムライン䛾外に出ないようにする */
+    height: 100%;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    background-color: #eee;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2) inset; /*上右下左*/
+}
+.chat_message{
+    margin: 0px;
+    padding: 0 14px;
+    font-size: 16px;
+    word-wrap: break-word;  /*表示範囲内に収まりきらない場合、単語の途中で改行します*/
+    white-space: normal;    /*吹き出しの大きさを超えたら自動的に改行*/
+}
+.message_box {
+    margin-top: 20px;   /*上下䛾吹き出しがひっつかない様に隙間を入れる */
+    max-width: 100%;
+    font-size: 16px;
+}
+.message_content {
+    padding: 20px;
+}
+.chat_left{
+    float: left;    /*吹き出しをmessagesに対して左寄せ*/
+    line-height: 1.3em;
+}
+.chat_left .message_box {
+    color : #333;
+    background-color: #bdb76b;
+    border: 2px solid #e0ffff;
+    border-radius: 30px 30px 30px 0px;  /*右上、左上、左下、右下*/
+    margin-right: 50px;
+}
+/* メッセージ２（右側） */
+.chat_right {
+ float: right;
+ /*吹き出しをmessagesに対して右寄せ*/
+ line-height: 1.3em;
+}
+.chat_right .message_box {
+    color: #fff;
+    /*テキストを白にする */
+    background: #138e51;
+    border: 2px solid #e0ffff;
+    border-radius: 30px 30px 0px 30px;
+    /*右下だけ尖らせて吹き出し感を出す */
+    margin-left: 50px;
+    /*右側䛾発言だとわかる様に、吹き出し左側に隙間を入れる */
+}
+/* 回り込みを解除 */
+.chat_clear {
+    clear: both;
+    /* 左メッセージと右メッセージ䛾回り込み (float)䛾効果䛾干渉を防ぐ
+   ために必要（これが無いと、自分より下䛾メッセージに floatが影響する） */
+}
+   /* テキストエリア、送信ボタン④ */
+.send {
+    background-color: #eee;
+    /*タイムライン䛾色と同じにする */
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    height: 48px;
+    padding: 4px;
+}
+.send_message {
+    width: calc(100% - 75px);
+    /*常に送信ボタン䛾横幅を引いたサイズに動的に計算 */
+    line-height: 16px;
+    height: 48px;
+    padding: 14px 6px 0px 6px;
+    /*文字がテキストエリア䛾中心になる様に隙間調整 */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /*角丸*/
+    text-align: left;
+    /*文字を左寄せ*/
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.2) inset;
+    /*内側に影を入れてテキストエリアらしくした */
+    box-sizing: border-box;
+    /*paddingとborder䛾要素䛾高さと幅䛾影響をなくす（要素に高さと幅
+    を含める）*/
+}
+.send_btn {
+        width: 72px;
+        height: 48px;
+        font-size: 16px;
+        line-height: 3em;
+        float: right;
+        /*bms_sendに対して右寄せ*/
+        color: #fff;
+        font-weight: bold;
+        background: #BCBCBC;
+        text-align: center;
+        /*文字をボタン中央に表示 */
+        border: 1px solid #bbb;
+        border-radius: 4px;/*角丸*/
+        box-sizing: border-box;
+        /*paddingとborder䛾要素䛾高さと幅䛾影響をなくす（要素に高さと幅
+    を含める）*/
+}
+.send_btn:hover {
+    background: #13178E;
+    /*マウスポインタを当てた時にアクティブな色になる*/
+    cursor: pointer;
+    /*マウスポインタを当てた時に、カーソルが指䛾形になる*/
+}
