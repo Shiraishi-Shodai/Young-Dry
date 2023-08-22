@@ -2,11 +2,56 @@
 # -*- coding:utf-8 -*-
 # 必要なものをインポート
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask
+from flask import render_template, request, redirect
+from flask_sqlalchemy import SQLAlchemy
 
+app = Flask(__name__, template_folder="template")
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chat.db'
+db = SQLAlchemy(app)
 
-app = Flask(__name__, template_folder='template')   #Flaskのインスタンス化(デフォルトでmainになる)
+class Users(db.Model):
+    __tablename__ = "users"
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    password = db.Column(db.String(50), nullable=False)
 
+# dbの作成
+def cre():
+    db.create_all()
+
+def insert(password):
+    user = Users(password=password)
+    db.session.add(user)
+    db.session.commit()
+
+# 特定の行を削除
+def delete_user(user_id):
+    user = getUser(user_id)
+    print(user)
+    if user is not None:
+        db.session.delete(user)
+        db.session.commit()
+
+# ユーザーを取得
+def getUser(user_id):
+    user = db.session.query(Users).filter_by(user_id=user_id).first()
+    return user
+
+# ログインチェック
+def isLogin(user_id:str, password:str)-> bool:
+
+# idが数字かどうか
+    if user_id.isdecimal() == False:
+        return False
+    user = getUser(user_id)
+    # データベースにユーザー情報が格納されているか
+    if user is None:
+        return False
+        # パスワードが正しいか
+    elif user.password != password:
+        return False
+    return True
+        
 # ボタンの種類
 buttonObj = {
     "服の種類" : ["ハイブランド", "その他"],
@@ -70,17 +115,25 @@ def find_answer(key, question):
                 return "いずれも更に広がる可能性があり、了解していただけないと洗うことは不可"
         case _:
             pass
-            
-        
-    
-#  リストを初期化する関数
-def init(l: list) -> list:
-    print(l)
-    l = []
-    print(l)
-    return l
 
-@app.route('/', methods=['GET', 'POST']) #ルートからのパスを設定
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        # cre()
+        # insert(password="user1")
+        return render_template('login.html')
+
+    user_id = request.form["user_id"]
+    password = request.form["password"]
+    flag = isLogin(user_id, password)
+    
+    # ログイン可能ならchat画面へ、そうでないならログイン画面へ
+    if flag:
+        return redirect('/chat')
+    else:
+        return render_template("login.html", error="error")
+
+@app.route('/chat', methods=['GET', 'POST']) #ルートからのパスを設定
 def index():
     global choice, attention
     if request.method == 'GET':
@@ -93,19 +146,12 @@ def index():
     question = request.form['select']
     # 選択したものを追加
     choice.append(question)
-    # print(f'キー{key}: クエスチョン:{question}')
-    # print(f'選択したもの{choice}')
     # # quesitonをキーとし、対応する回答を取得
     answer = find_answer(key, question)
-    # print(answer)
     # 注意を追加
-    # print(request.form["attention"])
     attention.append(question + ":" + answer)
-    # print(f'注意{attention}')
-    # print(answer)
     
     if key == "その他不具合":
-
         # # array配列に辞書を追加
         array.append({
             tuple(choice): attention

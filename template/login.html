@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ログイン</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      border: 2px solid black;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .input-field {
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: 30px;
+    }
+    .error {
+        color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="login-box">
+      <h2 class="title">ログイン</h2>
+      <form method="POST" action="/login">
+        <div class="input-field">
+          <label for="user_id">ユーザ名:</label>
+          <input type="text" id="user_id" name="user_id" required>
+        </div>
+        <div class="input-field">
+          <label for="password">パスワード:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">完了</button>
+      </form>
+      {% if error%}
+      <p class="error">ログインに失敗しました。再度ログインし直してください</p>
+      {% endif %}
+    </div>
+  </div>
+</body>
+
+</html>
