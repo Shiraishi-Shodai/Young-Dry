@@ -18,7 +18,7 @@ class Users(db.Model):
 # dbの作成
 def cre():
     db.create_all()
-
+# 行を追加
 def insert(password):
     user = Users(password=password)
     db.session.add(user)
@@ -32,7 +32,7 @@ def delete_user(user_id):
         db.session.delete(user)
         db.session.commit()
 
-# ユーザーを取得
+# user_idに該当するユーザー情報を取得
 def getUser(user_id):
     user = db.session.query(Users).filter_by(user_id=user_id).first()
     return user
@@ -112,7 +112,7 @@ def find_answer(key, question):
                 return "基本的には洗える"
         case "その他不具合":
             if question in ["ほつれ", "虫穴", "破れ", "その他"]:
-                return "いずれも更に広がる可能性があり、了解していただけないと洗うことは不可"
+                return "更に広がる可能性があり、了解していただけないと洗うことは不可"
         case _:
             pass
 
