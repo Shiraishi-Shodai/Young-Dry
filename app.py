@@ -5,6 +5,8 @@
 from flask import Flask
 from flask import render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+import requests
+import os
 
 app = Flask(__name__, template_folder="template")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chat.db'
@@ -95,11 +97,11 @@ def find_answer(key, question):
     match key:
         case "服の種類":
             if question == "ハイブランド":
-                return "ハイクオリティをおすすめ"
+                return "ハイブランドの場合はハイクオリティをおすすめ"
             else:
-                return "スタンダード洗いをおすすめ"
+                return "ハイブランドでない場合はスタンダード洗いをおすすめ"
         case "繊維の種類":
-            if question in ["ウール", "アクリル", "シルク", "麻", "ヤク", "キャメル", "モヘヤ", "アンゴラ", "ナイロン"]:
+            if question in buttonObj["繊維の種類"]:
                 return "基本的には洗える"
             elif question == "ポリウレタン":
                 return "３年経過で劣化の可能性高い、剥離了解取れない場合洗うことは不可"
@@ -111,11 +113,34 @@ def find_answer(key, question):
             else:
                 return "基本的には洗える"
         case "その他不具合":
-            if question in ["ほつれ", "虫穴", "破れ", "その他"]:
+            if question in buttonObj["その他不具合"]:
                 return "更に広がる可能性があり、了解していただけないと洗うことは不可"
         case _:
             pass
 
+def lineNotify(question, image):
+    print('通知が行きます')
+    lineNotifyToken = "nUtnR5VPF8YdNverJfbzS46bS5OvLsbsfQtbmppVgTU"
+    lineNotifyAPI = "https://notify-api.line.me/api/notify"
+    headers = {"Authorization": f"Bearer {lineNotifyToken}"}
+    
+    # print(header)
+    data = {
+        "message": question,
+        # "image": image
+        }
+    
+    # img_data = open("static/img/tesserat_test.png", encoding="utf-8")
+    # os.chdir("static/img/")
+    with open("tesserat_test.png", "rb") as image_file:
+        print("画像タイプ" + type(image_file))
+        files = {"imageFile" : image_file}
+        print(f'ファイルです{files}')
+    
+    # print(data)
+        res = requests.post(lineNotifyAPI, headers=headers,data=data, files=files)
+        print(f'送信チェック:{res}')
+    
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -156,11 +181,21 @@ def index():
         array.append({
             tuple(choice): attention
         })
-        return render_template('main.html', array=array)
+        return redirect("/chat")
     
     key, value = getNextKeyValue(key)
     # question,answerをmain.htmlに渡し、main.htmlを表示する
     return render_template('main.html', key=key, data = value, choice=choice, attention=attention, array=array)
+
+@app.route('/inquiry', methods=["GET", "POST"])
+def inquiry():
+    if request.method == "GET":
+        return render_template("inquiry.html")
+    
+    question = request.form["question"]
+    image = request.form["image"]
+    lineNotify(question, image)
+    return render_template("inquiry.html", send="send")
 
 # Flaskで必要なもの、port=8000番
 # このファイルを直接実行しているかを判断

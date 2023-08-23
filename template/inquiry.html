@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>本部への問い合わせ</h1>
+    {% if send %}
+    <h2>送信しました</h2>
+    {% else %}
+    <form action="/inquiry" method="post">
+        <textarea name="question" id="" cols="30" rows="10"></textarea>
+        <input type="file" name="image" id="" accept="image">
+        <button type="submit">送信</button>
+    </form>
+    {% endif %}
+</body>
+</html>
