@@ -132,8 +132,8 @@ def lineNotify(question, image):
     
     # img_data = open("static/img/tesserat_test.png", encoding="utf-8")
     # os.chdir("static/img/")
-    with open("tesserat_test.png", "rb") as image_file:
-        print("画像タイプ" + type(image_file))
+    with open(image, "rb") as image_file:
+        # print("画像タイプ" + type(image_file))
         files = {"imageFile" : image_file}
         print(f'ファイルです{files}')
     
@@ -141,7 +141,7 @@ def lineNotify(question, image):
         res = requests.post(lineNotifyAPI, headers=headers,data=data, files=files)
         print(f'送信チェック:{res}')
     
-@app.route('/login', methods=["GET", "POST"])
+@app.route('/', methods=["GET", "POST"])
 def login():
     if request.method == "GET":
         # cre()
@@ -194,6 +194,8 @@ def inquiry():
     
     question = request.form["question"]
     image = request.form["image"]
+    print(f'リクエスト: {request}')
+    print(f'fileからのでーた:{image}')
     lineNotify(question, image)
     return render_template("inquiry.html", send="send")
 

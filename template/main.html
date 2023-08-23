@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat Bot</title>
+    <title>chat bot</title>
     <link rel="stylesheet" href="../static/css/demo.css" />
   </head>
   <body>
@@ -11,32 +11,55 @@
       <div class="messages_container">
         <div class="chat_header">
           <div class="chat_user_status">
-            <div class="status_icon">●</div>
-            <div class="chat_user_name">bot</div>
-            <a href="/chat" class="top">最初に戻る</a>
+            <img src="../static/img/rogo.png" alt="" />
+          </div>
+          <div class="botton_esc">
+            <a href="/chat">
+              <img src="../static/img/reload.png" alt="" />
+            </a>
+
+            <a href="#link">
+              <div class="botton_esc1">
+                <img src="../static/img/下ボタン.png" alt="" />
+              </div>
+            </a>
           </div>
         </div>
 
         <div class="messages">
-          <div class="chat_message chat_left">
-            <div class="message_box">
-              <div class="message_content">
-                <div class="message_text">このシステムはChat bind:です。</div>
-              </div>
+          .
+          <!-- <div class="chat_message chat_left">
+                    <div class="message_box">
+                        <div class="message_content">
+                            <div class="message_text">
+                                このシステムはchat botです
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat_clear"></div>
+
+                <div class="chat_message chat_right">
+                    <div class="message_box">
+                        <div class="message_content">
+                            <div class="message_text">
+                                では、これを探して下しさい
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat_clear"></div> -->
+
+          {% if array %} {% for data in array %} {% for k in data %}
+
+          <div class="message_icon_right">
+            <div class="message_icon_right_img">
+              <img src="../static/img/43_20230822135528.png" alt="社長" />
             </div>
           </div>
-          <div class="chat_clear"></div>
 
-          <div class="chat_message chat_right">
-            <div class="message_box">
-              <div class="message_content">
-                <div class="message_text">では、これをさがしてください</div>
-              </div>
-            </div>
-          </div>
-          <div class="chat_clear"></div>
-
-          {% if array %}{% for data in array%}{% for k in data %}
           <div class="chat_message chat_right">
             <div class="message_box">
               <div class="message_content">
@@ -47,68 +70,96 @@
               </div>
             </div>
           </div>
+
           <div class="chat_clear"></div>
+
+          <div class="message_icon_left">
+            <div class="message_icon_left_img">
+              <img src="..\static\img\syatyou.png" alt="社長" />
+            </div>
+          </div>
 
           <div class="chat_message chat_left">
             <div class="message_box">
               <div class="message_content">
                 <div class="message_text">
-                  {% for i in data[k] %} {{i}}<br />
+                  {% for i in data[k]%} {{i}}<br />
                   {% endfor %}
                 </div>
               </div>
             </div>
           </div>
-          <div class="chat_clear"></div>
-          {% endfor %}{% endfor %}{% endif %}
-          <div id="scroll"></div>
-        </div>
 
-        <div class="send">
-          <form action="" method="post" id="a">
-            <div class="option">
-              {% if data %}
-              <p>{{key}}</p>
-              {% for i in data%}
-              <input type="submit" value="{{i}}" name="select" />
-              {% endfor %}
-              <button>
-                <span>
-                  <a href="/inquiry">問い合わせページへ</a>
-                </span>
-              </button>
-              <input type="hidden" name="buttonType" value="{{key}}" />
-              <input type="hidden" name="choice" , value="{{choice}}" />
-              <input type="hidden" name="attention" , value="{{attention}}" />
-              {% endif %}
+          <div class="chat_clear"></div>
+          {% endfor %} {% endfor %} {% endif %}
+          <div id="scroll"></div>
+
+          <div id="link"></div>
+
+          <div class="rich_menu">
+            <div class="botton_1">
+              <form action="" method="post" id="a">
+                <div class="option">
+                    <p>{{key}}</p>
+                  {% for i in data%}
+                  <input
+                    type="submit"
+                    value="{{i}}"
+                    name="select"
+                    class="kind_botton"
+                  />
+                  {% endfor %}
+                  <input type="hidden" name="buttonType" value="{{key}}" />
+                  <input type="hidden" name="choice" , value="{{choice}}" />
+                  <input
+                    type="hidden"
+                    name="attention"
+                    ,
+                    value="{{attention}}"
+                  />
+                  <button>
+                    <span>
+                      <a href="/inquiry">問い合わせページへ</a>
+                    </span>
+                 </button>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
+        <!-- <div class="send">
+                <form id = "myform"method="post" action="">
+                    <textarea onkeydown="handleTextareaEnter(event)" class="send_message" name="question" id="question"></textarea>
+                    <! <input type="text" class="send_message" name="question"> -->
+        <!-- <button class="send_btn" type="submit">送信</button>
+                </form>
+                
+                </form>
+            </div> -->
       </div>
     </div>
 
     <script>
-      const handleTextarea = (event) => {
+      function handleTextareaEnter(event) {
         if (event.keyCode === 13 && !event.shiftKey) {
-          event.preventDefault(); //自動改行のキャンセル
-          document.getElementById("a").submit();
+          event.preventDefault();
+          document.getElementById("myform").submit();
         }
-      };
+      }
 
-      //最新のチャットを表示
+      document
+        .getElementById("myform")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+        });
+
       let target = document.getElementById("scroll");
-      //false の場合、要素の下端がスクロール可能祖先の表示範囲の下端に来るようにスクロールします
-      target.scrollIntoView(false); //target要素をデフォルトで表示
+      target.scrollIntoView(false);
 
-      //デフォルトでテキストエリアをアクティブにする
       document.getElementById("question").focus();
-    </script>
 
-    <script
-      src="https://code.jquery.com/jquery-3.7.0.min.js"
-      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
-      crossorigin="anonymous"
-    ></script>
-    <script src="../static/js/app.js"></script>
+      let richMenu = document.querySelector(".rich_menu");
+      richMenu.scrollIntoView(false);
+    </script>
   </body>
 </html>
