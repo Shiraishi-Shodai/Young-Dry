@@ -11,7 +11,7 @@
     {% if send %}
     <h2>送信しました</h2>
     {% else %}
-    <form action="/inquiry" method="post" enctype="multipart/form-data">
+    <form action="/inquiry" method="post" enctype="multipart/form-data"><!-- enctype="multipart/form-data"-->
       <textarea name="question" id="" cols="30" rows="10"></textarea>
       <input type="file" name="image" id="image" accept="image/*"/>
       <button type="submit">送信</button>
