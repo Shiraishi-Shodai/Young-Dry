@@ -1,6 +1,10 @@
 {% extends "base.html"%}
+
+{%block head%}<link rel="stylesheet" href="../static/css/index.css"/>{%endblock%}
  {%block content%}
  <h1>ヤングドライシステムにようこそ！</h1>
- <a href="{{url_for("signup")}}">サインイン</a>
- <a href="{{url_for("login")}}">ログイン</a>
+ <div id="sign_login">
+    <a href="{{url_for("signup")}}" id="sign">サインイン</a>
+    <a href="{{url_for("login")}}" id="login">ログイン</a>
+ </div>
  {%endblock%}

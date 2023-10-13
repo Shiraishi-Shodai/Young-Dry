@@ -1,0 +1,124 @@
+body {
+    font-family: sans-serif;
+    background-color: #fff;
+  }
+  
+  h1 {
+    font-size: 2em;
+    text-align: center;
+    margin-top: 100px;
+    color: #333;
+  }
+  
+  form {
+    width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  label {
+    font-size: 1em;
+    color: #333;
+  }
+  
+  input {
+    width: 100%;
+    height: 40px;
+    font-size: 1em;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 10px;
+  }
+  
+  input:focus {
+    outline: none;
+    border: 1px solid #333;
+  }
+  
+  input[type="submit"] {
+    background-color: #f00;
+    color: #fff;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #f9c;
+  }
+  
+  /* 問い合わせフォームのデザイン */
+  
+  .form-group {
+    text-align: center;
+  }
+  
+  textarea {
+    resize: none;
+    height: 200px;
+  }
+  
+  .file-upload {
+    margin-top: 20px;
+  }
+  
+  .file-input {
+    width: 100%;
+    height: 40px;
+    font-size: 1em;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 10px;
+  }
+  
+  .file-input:focus {
+    outline: none;
+    border: 1px solid #333;
+  }
+  
+  .file-label {
+    font-size: 1em;
+    color: #333;
+  }
+  
+  /* フォームのサイズを調整 */
+  
+  form {
+    width: 600px;
+  }
+  
+  /* 送信完了時のデザイン */
+  
+  .sent {
+    color: #fff;
+    background-color: red;
+    padding: 10px;
+    margin-top: 20px;
+    text-align: center;
+    width: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .sent button {
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  
+  .sent button:hover {
+    background-color: #f9c;
+  }  

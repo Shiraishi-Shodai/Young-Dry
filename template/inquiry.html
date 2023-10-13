@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="../static/css/inqury.css"/>
   </head>
   <body>
-    <h1>本部への問い合わせ</h1>
+    <h1>本部への問い合わせを送信しました</h1>
     {% if send %}
-    <h2>送信しました</h2>
-    <h3><a href="/chat">チャットへ戻る</a></h3>
+    <button onclick="location.href='{{url_for('chat')}}'" class="sent">チャットに戻る</button>
     {% else %}
     <form action="/inquiry" method="post" enctype="multipart/form-data"><!-- enctype="multipart/form-data"-->
       <textarea name="question" id="" cols="30" rows="10" required></textarea>

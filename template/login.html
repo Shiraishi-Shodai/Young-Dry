@@ -1,11 +1,18 @@
-{% extends "base.html"%} {%block content%}
+{% extends "base.html"%}
+
+{%block head%}<link rel="stylesheet" href="../static/css/login.css"/>{%endblock%}
+
+{%block content%}
 
 <h1>ログイン画面</h1>
 <form action="{{url_for('login')}}" method="post">
-  <label for="username">ユーザー名</label>
-  <input type="text" name="username" id="username" />
-  <label for="password">パスワード</label>
-  <input type="text" name="password" id="password" />
-  <input type="submit" value="送信" />
+  <div class="form-group">
+    <label for="username">ユーザー名</label>
+    <input type="text" name="username" id="username" />
+    <label for="password">パスワード</label>
+    <input type="text" name="password" id="password" /><br><br>
+    <input type="submit" value="送信" />
+  </div>
+
 </form>
 {%endblock%}

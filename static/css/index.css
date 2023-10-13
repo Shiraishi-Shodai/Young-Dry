@@ -1,0 +1,32 @@
+body {
+    font-family: sans-serif;
+    background-color: #fff;
+  }
+  
+  h1 {
+    font-size: 2em;
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  #sign_login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  a {
+    text-decoration: none;
+    color: #000;
+    font-size: 1em;
+    padding: 10px 20px;
+    margin-left: 30px;
+    border-radius: 5px;
+    border: solid 1px pink;
+    /* margin-top: 20px; */
+  }
+  
+  a:hover {
+    background-color: #ccc;
+  }
+  

@@ -1,4 +1,6 @@
-{% extends "base.html"%}{%block content%}
-<h1>ログアウトしました</h1>
-<a href="{{url_for('index')}}">トップ画面に戻る</a>
+{% extends "base.html"%}
+{%block head%}<link rel="stylesheet" href="../static/css/logout.css"/>{%endblock%}
+{%block content%}
+<h1 class="sent">ログアウトしました</h1>
+<button onclick="location.href='{{url_for('index')}}'" class="sent">TOPに戻る</button>
 {%endblock%}
