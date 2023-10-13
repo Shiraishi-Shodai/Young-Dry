@@ -23,6 +23,17 @@
                 <img src="../static/img/下ボタン.png" alt="" />
               </div>
             </a>
+
+             <button>
+              <span>
+                <a href="/inquiry">問い合わせページへ</a>
+              </span>
+            </button>
+            <button>
+              <span>
+                <a href="{{url_for('logout')}}">ログアウト</a>
+              </span>
+            </button>
           </div>
         </div>
 
@@ -100,7 +111,7 @@
             <div class="botton_1">
               <form action="" method="post" id="a">
                 <div class="option">
-                    <p>{{key}}</p>
+                  <p>{{key}}</p>
                   {% for i in data%}
                   <input
                     type="submit"
@@ -117,11 +128,7 @@
                     ,
                     value="{{attention}}"
                   />
-                  <button>
-                    <span>
-                      <a href="/inquiry">問い合わせページへ</a>
-                    </span>
-                 </button>
+
                 </div>
               </form>
             </div>
