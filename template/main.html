@@ -24,16 +24,10 @@
               </div>
             </a>
 
-             <button>
-              <span>
-                <a href="/inquiry">問い合わせページへ</a>
-              </span>
-            </button>
-            <button>
-              <span>
-                <a href="{{url_for('logout')}}">ログアウト</a>
-              </span>
-            </button>
+            <button onclick="location.href='{{url_for('inquiry')}}'">問い合わせ</button>
+
+             <button onclick="location.href='{{url_for('logout')}}'">ログアウト</button>
+
           </div>
         </div>
 
