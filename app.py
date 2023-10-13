@@ -5,55 +5,27 @@
 from flask import Flask
 from flask import render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-import requests
+from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
+import requests
 
 app = Flask(__name__, template_folder="template")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chat.db'
+app.config['SQLALCHEMY_ECHO']=True #sql文等のログを出力
+# ログイン状態を管理する秘密鍵を定義
+app.config["SECRET_KEY"] = os.urandom(24)
+# DBを操作するためのインスタンスを生成し、dbに格納
 db = SQLAlchemy(app)
 
-class Users(db.Model):
-    __tablename__ = "users"
-    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    password = db.Column(db.String(50), nullable=False)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
-# dbの作成
-def cre():
-    db.create_all()
-# 行を追加
-def insert(password):
-    user = Users(password=password)
-    db.session.add(user)
-    db.session.commit()
-
-# 特定の行を削除
-def delete_user(user_id):
-    user = getUser(user_id)
-    print(user)
-    if user is not None:
-        db.session.delete(user)
-        db.session.commit()
-
-# user_idに該当するユーザー情報を取得
-def getUser(user_id):
-    user = db.session.query(Users).filter_by(user_id=user_id).first()
-    return user
-
-# ログインチェック
-def isLogin(user_id:str, password:str)-> bool:
-
-# idが数字かどうか
-    if user_id.isdecimal() == False:
-        return False
-    user = getUser(user_id)
-    # データベースにユーザー情報が格納されているか
-    if user is None:
-        return False
-        # パスワードが正しいか
-    elif user.password != password:
-        return False
-    return True
-        
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    username = db.Column(db.String(50), nullable=True, unique=True) #null,重複を許可しない
+    password = db.Column(db.String(25))
+    
 # ボタンの種類
 buttonObj = {
     "服の種類" : ["ハイブランド", "その他"],
@@ -136,26 +108,52 @@ def lineNotify(question, image):
 # print(data)
     res = requests.post(lineNotifyAPI, headers=headers,data=data, files=files)
     print(f'送信チェック:{res}')
-    
-@app.route('/', methods=["GET", "POST"])
-def login():
-    if request.method == "GET":
-        # cre()
-        # insert(password="user1")
-        return render_template('login.html')
 
-    user_id = request.form["user_id"]
-    password = request.form["password"]
-    flag = isLogin(user_id, password)
+@login_manager.user_loader
+def load_user(id):
+    user = User.query.filter_by(id=id).first()
+    return user
     
-    # ログイン可能ならchat画面へ、そうでないならログイン画面へ
-    if flag:
-        return redirect('/chat')
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/signup", methods=["POST", "GET"])
+def signup():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        user = User(username=username, password=generate_password_hash(password, method="sha256"))        
+        db.session.add(user)
+        db.session.commit()
+        return redirect("/login")
     else:
-        return render_template("login.html", error="error")
+        return render_template("signup.html")
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+        if request.method == "POST":
+            username = request.form["username"]
+            password = request.form["password"]
+            user = User.query.filter_by(username=username).first()
+
+            if check_password_hash(user.password, password):
+                login_user(user)
+                return redirect("/chat")
+            else:
+                return redirect("/")
+        else:
+            return render_template("login.html")
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return render_template("logout.html")
 
 @app.route('/chat', methods=['GET', 'POST']) #ルートからのパスを設定
-def index():
+@login_required
+def chat():
     global choice, attention
     if request.method == 'GET':
         choice = []
@@ -184,6 +182,7 @@ def index():
     return render_template('main.html', key=key, data = value, choice=choice, attention=attention, array=array)
 
 @app.route('/inquiry', methods=["GET", "POST"])
+@login_required
 def inquiry():
     if request.method == "GET":
         return render_template("inquiry.html")
@@ -193,6 +192,10 @@ def inquiry():
     print(f'fileからのデータ:{image}')
     lineNotify(question, image)
     return render_template("inquiry.html", send="send")
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return redirect("/")
 
 # Flaskで必要なもの、port=8000番
 # このファイルを直接実行しているかを判断
